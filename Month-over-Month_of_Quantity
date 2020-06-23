@@ -1,0 +1,31 @@
+###SQL Query
+
+WITH maus as (
+SELECT 
+  Date_part('year', occurred_at) as year,
+  Date_part('month', occurred_at) as month,
+  To_Char(occurred_at,'YYYY-MM') as occurred_date,
+  sum(quantity) as quantity
+    
+FROM tutorial.orders 
+GROUP BY 1,2,3
+ORDER BY 1,2,3,4 ASC ) 
+
+,
+
+previous_mau as (
+SELECT
+  occurred_date,
+  COALESCE(LAG(quantity) OVER (ORDER BY occurred_date), 1) as previous_quantity ,
+  quantity
+
+FROM maus)
+
+SELECT 
+  occurred_date,
+  previous_quantity,
+  quantity,
+  
+  ROUND(CAST (((quantity-previous_quantity)/previous_quantity) as NUMERIC),3) as MoM_growth
+FROM previous_mau
+;

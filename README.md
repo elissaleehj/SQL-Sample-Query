@@ -1,5 +1,6 @@
 # SQL Query Portfolio
 
+All queries were written by using sample database from Mode.com. 
 You can check the query and results by accessing the link below. 
 I have also attached the sample query in this respository for convenience. 
 

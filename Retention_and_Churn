@@ -1,0 +1,21 @@
+WITH user_activity as (
+SELECT DISTINCT
+  Cast(Date_TRUNC('month',occurred_at) as Date) as month,
+  user_id
+FROM tutorial.yammer_emails
+ORDER BY 1 ASC)
+
+SELECT
+  previous.month,
+  COUNT(DISTINCT current.user_id)::NUMERIC as current_id,
+  COUNT(DISTINCT previous.user_id)::NUMERIC as previous_id,
+  ROUND(COUNT(DISTINCT current.user_id)::NUMERIC /GREATEST(COUNT(DISTINCT previous.user_id),1),2) as retention,
+  ROUND( 1 - (COUNT(DISTINCT current.user_id)::NUMERIC / COUNT(DISTINCT previous.user_id)),2) as churn
+  
+FROM user_activity as previous
+LEFT JOIN  user_activity as current
+   ON previous.user_id = current.user_id
+   AND previous.month = current.month - interval '1 Month'
+
+GROUP BY 1
+LIMIT 100

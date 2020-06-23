@@ -1,6 +1,8 @@
 # SQL Query Portfolio
 
-You can check the query and results by accessing the link below. I have also attached the sample query in this respository for convenience. 
+You can check the query and results by accessing the link below. 
+I have also attached the sample query in this respository for convenience. 
+
 https://app.mode.com/elissaleehj/spaces/6085a1e29cf3
 
 
